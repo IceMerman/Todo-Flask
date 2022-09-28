@@ -1,0 +1,11 @@
+# Files
+*.py[cod]
+*.env
+
+# Folders
+__pycache__/
+.vsode/
+env/
+venv/
+
+# Exceptions
