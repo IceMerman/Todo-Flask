@@ -3,4 +3,14 @@ body{
     color: white;
     font-size: 20px;
     font-family: Helvetica;
+};
+
+h1{
+    background-color: #222;
+    color: #ddd;
+    margin: auto;
+}
+
+a {
+    color: #eee;
 }
