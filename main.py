@@ -11,6 +11,10 @@ app = Flask(__name__, template_folder='./templates')
 todo_list = [f'todo {i:>02}' for i in range(10)]
 todo_dict = {i: f'todo {i:>02}' for i in range(10)}
 
+@app.errorhandler(404)
+def error_404(error):
+    return render_template('errors/404.html', error=error)
+
 @app.route('/')
 def index():
     user_ip = request.remote_addr

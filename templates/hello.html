@@ -1,13 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TODO with Flask</title>
-    <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
-</head>
-<body>
+{% extends 'base.html' %}
+{% import 'macros.html' as macros %}
+
+{% block title %}
+    {{ super() }} Bienvenido
+{% endblock title %}
+
+{% block content %}
     {% if user_ip != "None" %}
     <h1>Hello World, your IP is {{user_ip}}</h1>
     {% else %}
@@ -18,16 +16,15 @@
         <summary>TODO:</summary>
         <ul>
             {% for todo in todos %}
-            <li>{{loop.index}}: {{todo}}</li>
+            <!--<li>{{loop.index}}: {{todo}}</li>-->
+            {{ macros.render_todo(todo) }}
             {% endfor %}
         </ul>
     </details>
-
+    <p>Dictionary</p>
+    <ul>
     {% for idx, name in todo_dict.items() %}
-        <ul>
-            <li>{{idx**2}}: {{name}}</li>
-        </ul>
+        <li>{{idx**2}}: {{name}}</li>
     {% endfor %}
-
-</body>
-</html>
+    </ul>
+{% endblock content %}
