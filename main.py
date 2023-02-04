@@ -4,12 +4,16 @@ from flask import (
     make_response,
     redirect,
     escape,
-    render_template
+    render_template,
+    session
 )
-from flask_bootstrap import Bootstrap
+from flask_bootstrap import Bootstrap5
+from core.forms import LoginForm
 
 app = Flask(__name__, template_folder='./templates')
-bootstrap = Bootstrap(app)
+bootstrap = Bootstrap5(app)
+
+app.config['SECRET_KEY'] = 'SHA256 SALTYSALT!289280ff8719fdfd165f8fa0d9df02ed'
 
 todo_list = [f'todo {i:>02}' for i in range(10)]
 todo_dict = {i: f'todo {i:>02}' for i in range(10)}
@@ -23,17 +27,20 @@ def index():
     user_ip = request.remote_addr
 
     response = make_response(redirect('/hello'))
-    response.set_cookie('user_ip', user_ip)
+    session['user_ip'] = user_ip
+    # response.set_cookie('user_ip', user_ip)
     return response
 
 @app.route('/hello')
 def hello():
-    user_ip = request.cookies.get('user_ip')
-    user_ip = escape(user_ip)
+    # user_ip = request.cookies.get('user_ip')
+    user_ip = session.get('user_ip')
+    # user_ip = escape(user_ip)
     context = {
         'user_ip': user_ip,
         'todos': todo_list,
         'todo_dict': todo_dict,
+        'form': LoginForm()
     }
     return render_template('hello.html', **context)
 

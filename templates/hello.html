@@ -1,16 +1,25 @@
 {% extends 'base.html' %}
 {% import 'macros.html' as macros %}
+{% from 'bootstrap4/form.html' import render_form %}
 
 {% block title %}
     {{ super() }} Bienvenido
 {% endblock title %}
 
 {% block content %}
-    {% if user_ip != "None" %}
-    <h1>Hello World, your IP is {{user_ip}}</h1>
-    {% else %}
+    {% if not user_ip %}
     <a href="{{ url_for('index')}}">Ir a inicio</a>
-    {% endif %}
+    {% else %}
+    <h1>Hello World, your IP is {{user_ip}}</h1>
+
+    <div class="container mt-auto">
+        <form action="{{ url_for('hello') }}" method="POST">
+            <!--{{form.username.label}}
+            {{form.username}} 
+            {{ form.csrf_token }}-->
+            {{render_form(form)}}
+        </form>
+    </div>
 
     <details>
         <summary>TODO:</summary>
@@ -27,4 +36,5 @@
         <li>{{idx**2}}: {{name}}</li>
     {% endfor %}
     </ul>
+    {% endif %}
 {% endblock content %}
