@@ -7,10 +7,11 @@
 {% endblock title %}
 
 {% block content %}
+    {% if username %}Bienvenido {{username | capitalize}}{% endif %}
     {% if not user_ip %}
     <a href="{{ url_for('index')}}">Ir a inicio</a>
     {% else %}
-    <h1>Hello World, your IP is {{user_ip}}</h1>
+    <h3>Tu IP es {{user_ip}}</h3>
 
     <div class="container mt-auto">
         <form action="{{ url_for('hello') }}" method="POST">

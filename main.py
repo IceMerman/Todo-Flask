@@ -5,7 +5,9 @@ from flask import (
     redirect,
     escape,
     render_template,
-    session
+    session,
+    url_for,
+    flash
 )
 from flask_bootstrap import Bootstrap5
 from core.forms import LoginForm
@@ -28,20 +30,31 @@ def index():
 
     response = make_response(redirect('/hello'))
     session['user_ip'] = user_ip
-    # response.set_cookie('user_ip', user_ip)
     return response
 
-@app.route('/hello')
+@app.route('/hello', methods=['GET', 'POST'])
 def hello():
-    # user_ip = request.cookies.get('user_ip')
+    
     user_ip = session.get('user_ip')
-    # user_ip = escape(user_ip)
+    username = session.get('username')
+    form = LoginForm()
+    
     context = {
         'user_ip': user_ip,
         'todos': todo_list,
         'todo_dict': todo_dict,
-        'form': LoginForm()
+        'form': form,
+        'username': username
     }
+
+    # Equivalente a detectar el POST
+    if form.validate_on_submit():
+        username = form.username.data
+        # pwd = form.pwd.data
+        session['username'] = username
+        flash('Nombre de usuario registrado con éxito', category='success')
+        return redirect(url_for('index'))
+
     return render_template('hello.html', **context)
 
 if __name__ == '__main__':
