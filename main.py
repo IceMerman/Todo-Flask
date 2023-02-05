@@ -1,22 +1,17 @@
 from flask import (
-    Flask,
     request,
     make_response,
     redirect,
-    escape,
     render_template,
     session,
     url_for,
     flash
 )
-from flask_bootstrap import Bootstrap5
-from core.forms import LoginForm
-import unittest
+from app import create_app
+from app.forms import LoginForm
+from unittest import TestLoader, TextTestRunner
 
-app = Flask(__name__, template_folder='./templates')
-bootstrap = Bootstrap5(app)
-
-app.config['SECRET_KEY'] = 'SHA256 SALTYSALT!289280ff8719fdfd165f8fa0d9df02ed'
+app = create_app()
 
 todo_list = [f'todo {i:>02}' for i in range(10)]
 todo_dict = {i: f'todo {i:>02}' for i in range(10)}
@@ -24,8 +19,8 @@ todo_dict = {i: f'todo {i:>02}' for i in range(10)}
 # Command line interface
 @app.cli.command()
 def test():
-    tests = unittest.TestLoader().discover('tests')
-    unittest.TextTestRunner().run(tests)
+    tests = TestLoader().discover('tests')
+    TextTestRunner().run(tests)
 
 @app.errorhandler(404)
 def error_404(error):
