@@ -7,35 +7,41 @@
 {% endblock title %}
 
 {% block content %}
-    {% if username %}Bienvenido {{username | capitalize}}{% endif %}
-    {% if not user_ip %}
-    <a href="{{ url_for('index')}}">Ir a inicio</a>
-    {% else %}
-    <h3>Tu IP es {{user_ip}}</h3>
-
-    <div class="container mt-auto">
-        <form action="{{ url_for('hello') }}" method="POST">
-            <!--{{form.username.label}}
-            {{form.username}} 
-            {{ form.csrf_token }}-->
-            {{render_form(form)}}
-        </form>
+    <div class="container card mt-auto text-center">
+        {% if username %}Bienvenido <big><strong>{{username | capitalize}}</strong></big>{% endif %}
+        {% if not user_ip %}
+        <a href="{{ url_for('index')}}">Ir a inicio</a>
+        {% else %}
+        <h3>Tu IP es {{user_ip}}</h3>
     </div>
 
-    <details>
-        <summary>TODO:</summary>
-        <ul>
-            {% for todo in todos %}
-            <!--<li>{{loop.index}}: {{todo}}</li>-->
-            {{ macros.render_todo(todo) }}
+    <main>
+        <div class="container mt-auto card py-4">
+            <form action="{{ url_for('hello') }}" method="POST">
+                <!--{{form.username.label}}
+                {{form.username}} 
+                {{ form.csrf_token }}-->
+                {{render_form(form)}}
+            </form>
+        </div>
+    
+        <div class="container card card-info py-5">
+            <details>
+                <summary>TODO:</summary>
+                <ul>
+                    {% for todo in todos %}
+                    <!--<li>{{loop.index}}: {{todo}}</li>-->
+                    {{ macros.render_todo(todo) }}
+                    {% endfor %}
+                </ul>
+            </details>
+            <p>Dictionary</p>
+            <ul>
+            {% for idx, name in todo_dict.items() %}
+                <li>{{idx**2}}: {{name}}</li>
             {% endfor %}
-        </ul>
-    </details>
-    <p>Dictionary</p>
-    <ul>
-    {% for idx, name in todo_dict.items() %}
-        <li>{{idx**2}}: {{name}}</li>
-    {% endfor %}
-    </ul>
-    {% endif %}
+            </ul>
+            {% endif %}
+        </div>
+    </main>
 {% endblock content %}
