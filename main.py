@@ -11,6 +11,7 @@ from flask import (
 )
 from flask_bootstrap import Bootstrap5
 from core.forms import LoginForm
+import unittest
 
 app = Flask(__name__, template_folder='./templates')
 bootstrap = Bootstrap5(app)
@@ -19,6 +20,12 @@ app.config['SECRET_KEY'] = 'SHA256 SALTYSALT!289280ff8719fdfd165f8fa0d9df02ed'
 
 todo_list = [f'todo {i:>02}' for i in range(10)]
 todo_dict = {i: f'todo {i:>02}' for i in range(10)}
+
+# Command line interface
+@app.cli.command()
+def test():
+    tests = unittest.TestLoader().discover('tests')
+    unittest.TextTestRunner().run(tests)
 
 @app.errorhandler(404)
 def error_404(error):
