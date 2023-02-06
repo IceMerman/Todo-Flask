@@ -4,8 +4,7 @@ from flask import (
     redirect,
     render_template,
     session,
-    url_for,
-    flash
+    url_for
 )
 from app import create_app
 from app.forms import LoginForm
@@ -34,28 +33,18 @@ def index():
     session['user_ip'] = user_ip
     return response
 
-@app.route('/hello', methods=['GET', 'POST'])
+@app.route('/hello')
 def hello():
     
     user_ip = session.get('user_ip')
     username = session.get('username')
-    form = LoginForm()
     
     context = {
         'user_ip': user_ip,
         'todos': todo_list,
         'todo_dict': todo_dict,
-        'form': form,
         'username': username
     }
-
-    # Equivalente a detectar el POST
-    if form.validate_on_submit():
-        username = form.username.data
-        # pwd = form.pwd.data
-        session['username'] = username
-        flash('Nombre de usuario registrado con éxito', category='success')
-        return redirect(url_for('index'))
 
     return render_template('hello.html', **context)
 

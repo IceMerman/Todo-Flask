@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% import 'macros.html' as macros %}
-{% from 'bootstrap4/form.html' import render_form %}
+{% from 'bootstrap5/form.html' import render_form %}
 
 {% block title %}
     {{ super() }} Bienvenido
@@ -15,22 +15,12 @@
         <h3>Tu IP es {{user_ip}}</h3>
     </div>
 
-    <main>
-        <div class="container mt-auto card py-4">
-            <form action="{{ url_for('hello') }}" method="POST">
-                <!--{{form.username.label}}
-                {{form.username}} 
-                {{ form.csrf_token }}-->
-                {{render_form(form)}}
-            </form>
-        </div>
-    
+    <main>    
         <div class="container card card-info py-5">
             <details>
                 <summary>TODO:</summary>
                 <ul>
                     {% for todo in todos %}
-                    <!--<li>{{loop.index}}: {{todo}}</li>-->
                     {{ macros.render_todo(todo) }}
                     {% endfor %}
                 </ul>

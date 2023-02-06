@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% from 'bootstrap5/form.html' import render_form %}
+
+{% block title %} {{ super() }} Login {% endblock title %}
+
+{% block content %}
+<main>
+    <div class="container mt-auto card py-4">
+        <form action="" method="POST">
+            {{render_form(form)}}
+        </form>
+    </div>
+</main>
+{% endblock content %}
